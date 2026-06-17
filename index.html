@@ -1,378 +1,285 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VERAQA | Premium Sustainable Packaging</title>
-    <meta name="description" content="Premium sustainable packaging solutions designed for modern brands that care about quality, customer experience, and the planet.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
-    <header class="site-header" id="top">
-      <a class="brand" href="#home" aria-label="VERAQA home">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 74 74" role="img">
-            <defs>
-              <linearGradient id="chrome" x1="8" x2="66" y1="9" y2="64" gradientUnits="userSpaceOnUse">
-                <stop offset="0" stop-color="#ffffff"></stop>
-                <stop offset=".22" stop-color="#9eb8c8"></stop>
-                <stop offset=".5" stop-color="#f6ffff"></stop>
-                <stop offset=".78" stop-color="#627f92"></stop>
-                <stop offset="1" stop-color="#eafafa"></stop>
-              </linearGradient>
-              <linearGradient id="leaf" x1="42" x2="68" y1="18" y2="43" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#56DFCF"></stop>
-                <stop offset="1" stop-color="#0ABAB5"></stop>
-              </linearGradient>
-            </defs>
-            <path d="M14 13h13l11 34 12-34h12L43 62H32L14 13Z" fill="url(#chrome)"></path>
-            <path d="M42 27c11-12 23-8 26-7-1 10-8 21-22 23-5-6-5-11-4-16Z" fill="url(#leaf)"></path>
-            <path d="M47 38c5-8 11-13 18-17" fill="none" stroke="#093C5D" stroke-linecap="round" stroke-width="2"></path>
-          </svg>
-        </span>
-        <span>
-          <strong>VERAQA</strong>
-          <small>Packaging Inspired By Nature</small>
-        </span>
-      </a>
-      <nav class="main-nav" aria-label="Primary">
-        <a href="#shop">Shop</a>
-        <a href="#builder">Builder</a>
-        <a href="#industries">Industries</a>
-        <a href="#sustainability">Impact</a>
-        <a href="#about">About</a>
-      </nav>
-      <div class="header-actions">
-        <a class="icon-link" href="#account" aria-label="Account">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"></path></svg>
-        </a>
-        <a class="cart-button" href="#cart" aria-label="Cart">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h15l-2 9H8L6 3H3m6 18a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm9 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>
-          <span id="cartCount">0</span>
-        </a>
-      </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERAQA - Custom Packaging</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0f16;
+            --panel-bg: rgba(255, 255, 255, 0.03);
+            --white: #ffffff;
+            --brand-teal: #0ebcb3;
+            --brand-teal-glow: rgba(14, 188, 179, 0.4);
+            --text-light: #e0e0e0;
+            --text-gray: #a0a0a0;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(14, 188, 179, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(14, 188, 179, 0.08), transparent 25%);
+            color: var(--text-light);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Glassmorphism Utility */
+        .glass {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: var(--glass-border);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Header Overrides */
+        header {
+            border-bottom: var(--glass-border);
+            z-index: 1030; /* Bootstrap sticky-top compatible z-index */
+        }
+
+        .logo {
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .logo .vera { color: var(--white); }
+        .logo .qa { 
+            color: var(--brand-teal);
+            text-shadow: 0 0 8px var(--brand-teal-glow);
+        }
+
+        .nav-link-custom {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-size: 14px;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .nav-link-custom:hover {
+            color: var(--brand-teal);
+            text-shadow: 0 0 8px var(--brand-teal-glow);
+        }
+
+        .cart-badge {
+            top: -5px;
+            right: -10px;
+            background-color: var(--brand-teal);
+            color: var(--bg-color);
+            font-size: 10px;
+        }
+
+        /* Sidebar Custom Styles */
+        .category-item {
+            cursor: pointer;
+            transition: color 0.2s ease;
+            color: var(--text-gray);
+            font-size: 14px;
+        }
+
+        .category-item:hover { color: var(--white); }
+
+        .category-item input[type="checkbox"] {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 1px solid var(--text-gray);
+            border-radius: 4px;
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+            margin-top: 0.15rem;
+        }
+
+        .category-item input[type="checkbox"]:checked {
+            background: var(--brand-teal);
+            border-color: var(--brand-teal);
+            box-shadow: 0 0 8px var(--brand-teal-glow);
+        }
+
+        /* Product Card Overrides */
+        .product-card {
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px var(--brand-teal-glow);
+            border-color: rgba(14, 188, 179, 0.3);
+        }
+
+        .product-image {
+            height: 140px; /* Slightly smaller for mobile 2-col */
+            font-size: 50px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: var(--glass-border);
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .product-title {
+            color: var(--white);
+            font-weight: 500;
+        }
+
+        .product-price {
+            color: var(--brand-teal);
+            text-shadow: 0 0 5px var(--brand-teal-glow);
+        }
+
+        .product-moq {
+            color: var(--text-gray);
+            font-size: 0.75rem;
+        }
+
+        .add-to-cart-btn {
+            background-color: transparent;
+            color: var(--brand-teal);
+            border: 1px solid var(--brand-teal);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.8rem;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: var(--brand-teal);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px var(--brand-teal-glow);
+        }
+
+        /* Mobile specific adjustments to fit 2 columns nicely */
+        @media (max-width: 767px) {
+            .product-info-padding { padding: 12px; }
+            .product-title { font-size: 14px; margin-bottom: 4px !important; }
+            .product-price { font-size: 16px; }
+            .add-to-cart-btn { padding: 8px 4px; font-size: 0.7rem; }
+        }
+        @media (min-width: 768px) {
+            .product-info-padding { padding: 20px; }
+            .product-title { font-size: 16px; }
+            .product-price { font-size: 20px; }
+            .product-image { height: 180px; font-size: 70px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="glass sticky-top py-3 px-3 px-md-5">
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <div class="logo fs-4">
+                <span class="vera">VERA</span><span class="qa">QA</span>
+            </div>
+            
+            <nav class="d-none d-md-flex gap-4 align-items-center">
+                <a href="#" class="nav-link-custom">Shop</a>
+                <a href="#" class="nav-link-custom">Custom Packaging</a>
+                <a href="#" class="nav-link-custom">About</a>
+                <a href="#" class="nav-link-custom">Contact</a>
+            </nav>
+
+            <div class="position-relative" style="cursor: pointer;">
+                <span class="fs-5">🛒</span>
+                <span class="position-absolute rounded-pill fw-bold px-1 cart-badge" id="cart-count">0</span>
+            </div>
+        </div>
     </header>
 
-    <main>
-      <section class="hero section" id="home">
-        <div class="hero-copy reveal">
-          <p class="eyebrow">Sustainable Packaging. Premium First Impressions.</p>
-          <h1>Packaging That Sells Before The Product Does.</h1>
-          <p class="lede">Premium sustainable packaging solutions designed for modern brands that care about quality, customer experience, and the planet.</p>
-          <div class="button-row">
-            <a class="btn primary" href="#shop">Shop Packaging</a>
-            <a class="btn secondary" href="#builder">Build Custom Packaging</a>
-          </div>
-          <div class="trust-strip" aria-label="Veraqa advantages">
-            <span>FSC-ready papers</span>
-            <span>Low MOQ</span>
-            <span>Nationwide delivery</span>
-          </div>
-        </div>
-        <div class="hero-visual reveal">
-          <img src="assets/veraqa-hero.png" alt="Premium sustainable packaging arranged in a clean mint studio">
-          <div class="glass-tile tile-a">
-            <strong>92%</strong>
-            <span>recyclable catalog</span>
-          </div>
-          <div class="glass-tile tile-b">
-            <strong>14 days</strong>
-            <span>average production</span>
-          </div>
-        </div>
-      </section>
+    <main class="container-fluid py-4 px-3 px-md-5" style="max-width: 1400px;">
+        <div class="row g-4">
+            
+            <aside class="col-12 col-lg-3 col-xl-2">
+                <div class="glass p-4 rounded-3 h-100">
+                    <h3 class="text-white fs-6 fw-bold mb-3 letter-spacing-1">Categories</h3>
+                    <div class="d-flex flex-column gap-3" id="category-filters">
+                        </div>
+                </div>
+            </aside>
 
-      <section class="category-band section" aria-labelledby="categoryTitle">
-        <div class="section-heading">
-          <p class="eyebrow">Featured Categories</p>
-          <h2 id="categoryTitle">A complete packaging system for modern commerce.</h2>
+            <section class="col-12 col-lg-9 col-xl-10">
+                <div class="row g-3 g-md-4" id="product-container">
+                    </div>
+            </section>
+            
         </div>
-        <div class="category-grid">
-          <button>Corrugated Boxes</button>
-          <button>Mailer Boxes</button>
-          <button>Product Packaging</button>
-          <button>Luxury Gift Boxes</button>
-          <button>Paper Bags</button>
-          <button>Labels & Stickers</button>
-          <button>Food Packaging</button>
-          <button>Cosmetic Packaging</button>
-          <button>Sustainable Packaging</button>
-          <button>Compostable Packaging</button>
-        </div>
-      </section>
-
-      <section class="shop section" id="shop">
-        <div class="section-heading split">
-          <div>
-            <p class="eyebrow">Shop Packaging</p>
-            <h2>Premium SKUs, filtered for speed.</h2>
-          </div>
-          <div class="search-wrap">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"></path></svg>
-            <input id="productSearch" type="search" placeholder="Search boxes, bags, pouches">
-          </div>
-        </div>
-        <div class="commerce-layout">
-          <aside class="filters" aria-label="Product filters">
-            <label>Category<select id="categoryFilter"><option>All</option><option>Boxes</option><option>Bags</option><option>Labels</option><option>Pouches</option><option>Food Packaging</option></select></label>
-            <label>Material<select><option>All materials</option><option>Kraft</option><option>Corrugated</option><option>Paperboard</option><option>Compostable</option></select></label>
-            <label>Industry<select><option>All industries</option><option>Cosmetics</option><option>Food & Beverage</option><option>Fashion</option><option>Electronics</option><option>Healthcare</option></select></label>
-            <label>MOQ<input type="range" min="100" max="5000" value="1000" id="moqRange"><span id="moqValue">1000 units</span></label>
-            <label>Sustainability<select><option>4 stars and above</option><option>Compostable</option><option>Recyclable</option><option>Plastic-free</option></select></label>
-          </aside>
-          <div class="product-grid" id="productGrid"></div>
-        </div>
-      </section>
-
-      <section class="product-detail section" id="product">
-        <div class="gallery reveal">
-          <img src="assets/veraqa-products.png" alt="Catalog of premium sustainable packaging products">
-        </div>
-        <div class="detail-copy reveal">
-          <p class="eyebrow">Product Detail</p>
-          <h2>Signature Mailer Box</h2>
-          <p>Rigid enough for shipping, refined enough for unboxing. Built with recyclable corrugated board and precise print finishes for emerging and enterprise brands.</p>
-          <div class="option-grid">
-            <label>Size<select><option>220 x 160 x 70 mm</option><option>300 x 220 x 90 mm</option><option>Custom dimensions</option></select></label>
-            <label>Printing<select><option>CMYK exterior</option><option>Inside-outside print</option><option>Single-color soy ink</option></select></label>
-            <label>Finish<select><option>Matte aqueous</option><option>Soft touch</option><option>Embossed logo</option></select></label>
-            <label>Quantity<input type="number" value="500" min="100" step="50"></label>
-          </div>
-          <div class="score-row">
-            <span>Sustainability score</span>
-            <meter value="92" min="0" max="100">92%</meter>
-            <strong>92</strong>
-          </div>
-          <div class="button-row">
-            <button class="btn primary add-cart" data-name="Signature Mailer Box" data-price="42">Add To Cart</button>
-            <a class="btn secondary" href="#quote">Request Custom Quote</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="why section">
-        <div class="section-heading">
-          <p class="eyebrow">Why Veraqa</p>
-          <h2>Where innovation meets responsible packaging.</h2>
-        </div>
-        <div class="benefit-grid">
-          <article><span>01</span><h3>Sustainable Materials</h3><p>Recycled, recyclable, compostable, and responsibly sourced substrates.</p></article>
-          <article><span>02</span><h3>Premium Manufacturing</h3><p>Precise finishing, color control, and retail-grade construction.</p></article>
-          <article><span>03</span><h3>Fast Turnaround</h3><p>Clear timelines from artwork approval to nationwide dispatch.</p></article>
-          <article><span>04</span><h3>Custom Branding</h3><p>Print, foiling, embossing, inserts, labels, sleeves, and complete kits.</p></article>
-          <article><span>05</span><h3>Low MOQ</h3><p>Launch small, scale smoothly, keep inventory disciplined.</p></article>
-          <article><span>06</span><h3>Nationwide Delivery</h3><p>Packaging programs built for startups, SMEs, and enterprise teams.</p></article>
-        </div>
-      </section>
-
-      <section class="builder section" id="builder">
-        <div class="section-heading split">
-          <div>
-            <p class="eyebrow">Custom Packaging Builder</p>
-            <h2>Configure, preview, quote.</h2>
-          </div>
-          <a class="btn secondary" href="#quote">Get Instant Quote</a>
-        </div>
-        <div class="builder-layout">
-          <div class="builder-panel">
-            <label>Packaging Type<select id="packType"><option>Box</option><option>Bag</option><option>Pouch</option><option>Label</option></select></label>
-            <label>Material<select id="materialType"><option>Kraft</option><option>Corrugated</option><option>Paperboard</option><option>Compostable Material</option></select></label>
-            <label>Dimensions<input id="dimensions" type="text" value="240 x 180 x 80 mm"></label>
-            <label>Finish<select id="finishType"><option>Matte</option><option>Gloss</option><option>Soft Touch</option><option>Embossing</option><option>Foiling</option></select></label>
-            <label>Upload Logo<input type="file" accept="image/*"></label>
-            <button class="btn primary" id="mockupButton">Generate Mockup</button>
-          </div>
-          <div class="mockup-stage" aria-live="polite">
-            <div class="mockup-box" id="mockupBox">
-              <span>VERAQA</span>
-            </div>
-            <div class="mockup-meta" id="mockupMeta">Box - Kraft - Matte - 240 x 180 x 80 mm</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="sustainability section" id="sustainability">
-        <div class="section-heading">
-          <p class="eyebrow">Sustainability</p>
-          <h2>Future-ready packaging solutions with measurable impact.</h2>
-        </div>
-        <div class="impact-grid">
-          <article><strong data-count="128000">0</strong><span>Trees Saved</span></article>
-          <article><strong data-count="340">0</strong><span>Tons Plastic Reduced</span></article>
-          <article><strong data-count="2400000">0</strong><span>Recyclable Products Sold</span></article>
-          <article><strong data-count="1860">0</strong><span>Tons Carbon Reduced</span></article>
-        </div>
-        <div class="material-row">
-          <span>Sustainable Materials</span>
-          <span>Circular Economy</span>
-          <span>Carbon Initiatives</span>
-          <span>Recycling Programs</span>
-          <span>Eco Certifications</span>
-        </div>
-      </section>
-
-      <section class="industries section" id="industries">
-        <div class="section-heading">
-          <p class="eyebrow">Industry Solutions</p>
-          <h2>Recommendations shaped around what your customer touches first.</h2>
-        </div>
-        <div class="industry-grid">
-          <article><h3>Cosmetics</h3><p>Rigid cartons, labels, inserts, and soft-touch finishes.</p></article>
-          <article><h3>Food & Beverage</h3><p>Food-safe papers, sleeves, trays, and compostable pouches.</p></article>
-          <article><h3>Fashion</h3><p>Mailer boxes, paper bags, tissue, and branded stickers.</p></article>
-          <article><h3>Electronics</h3><p>Protective corrugate, molded inserts, and premium sleeves.</p></article>
-          <article><h3>Healthcare</h3><p>Clean labeling, tamper-evident formats, and compliant specs.</p></article>
-          <article><h3>Home & Lifestyle</h3><p>Gift boxes, shipping systems, and sustainable retail kits.</p></article>
-        </div>
-      </section>
-
-      <section class="process section">
-        <div class="section-heading">
-          <p class="eyebrow">Packaging Process</p>
-          <h2>From selected product to delivered packaging.</h2>
-        </div>
-        <ol class="process-list">
-          <li>Select Product</li>
-          <li>Customize Design</li>
-          <li>Upload Artwork</li>
-          <li>Approve Mockup</li>
-          <li>Production</li>
-          <li>Delivery</li>
-        </ol>
-      </section>
-
-      <section class="about section" id="about">
-        <div class="about-copy reveal">
-          <p class="eyebrow">About Veraqa</p>
-          <h2>Redefining Sustainable Packaging For Modern Brands.</h2>
-          <p>Our mission is to make sustainable packaging beautiful, accessible, innovative, and commercially successful. We pair thoughtful materials with premium manufacturing so every package earns its place in the customer experience.</p>
-          <div class="values">
-            <span>Innovation</span><span>Sustainability</span><span>Quality</span><span>Transparency</span><span>Customer Success</span>
-          </div>
-        </div>
-        <div class="timeline reveal">
-          <article><strong>2023</strong><span>Material research lab launched</span></article>
-          <article><strong>2024</strong><span>Custom packaging programs for growth brands</span></article>
-          <article><strong>2025</strong><span>Nationwide production partner network</span></article>
-          <article><strong>2026</strong><span>Instant quote and mockup platform</span></article>
-        </div>
-      </section>
-
-      <section class="blog section" id="blog">
-        <div class="section-heading split">
-          <div>
-            <p class="eyebrow">Editorial</p>
-            <h2>Packaging intelligence for tomorrow's brands.</h2>
-          </div>
-          <a class="btn secondary" href="#contact">Contact Sales</a>
-        </div>
-        <div class="blog-grid">
-          <article><span>Trends</span><h3>The new luxury is quiet, tactile, and recyclable.</h3></article>
-          <article><span>Branding</span><h3>How unboxing systems increase perceived value.</h3></article>
-          <article><span>Sustainability</span><h3>Choosing compostable materials without losing finish quality.</h3></article>
-        </div>
-      </section>
-
-      <section class="forms section" id="quote">
-        <div class="form-card">
-          <p class="eyebrow">Quote Request</p>
-          <h2>Ready To Elevate Your Packaging?</h2>
-          <form id="quoteForm">
-            <input required placeholder="Company Name">
-            <select required><option value="">Industry</option><option>Cosmetics</option><option>Food & Beverage</option><option>Fashion</option><option>Electronics</option></select>
-            <input required placeholder="Product Type">
-            <input required placeholder="Packaging Type">
-            <input required type="number" min="100" placeholder="Quantity">
-            <input placeholder="Dimensions">
-            <input type="file" accept="image/*,.pdf">
-            <textarea placeholder="Special Requirements"></textarea>
-            <button class="btn primary" type="submit">Submit Request</button>
-          </form>
-          <p class="form-note" id="quoteNote"></p>
-        </div>
-        <div class="form-card" id="contact">
-          <p class="eyebrow">Contact</p>
-          <h2>Sales, support, and business inquiries.</h2>
-          <form id="contactForm">
-            <input required placeholder="Name">
-            <input placeholder="Company">
-            <input required type="email" placeholder="Email">
-            <input placeholder="Phone">
-            <textarea required placeholder="Packaging Requirement"></textarea>
-            <button class="btn secondary" type="submit">Contact Sales</button>
-          </form>
-          <div class="contact-lines">
-            <span>sales@veraqa.com</span>
-            <span>support@veraqa.com</span>
-            <span>Mon-Fri, 9:00-18:00</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="account-cart section" id="account">
-        <div class="account-panel">
-          <p class="eyebrow">Account System</p>
-          <h2>Your orders, designs, quotes, wishlist, and addresses.</h2>
-          <div class="tabs" role="tablist" aria-label="Account">
-            <button class="active">Order History</button>
-            <button>Saved Designs</button>
-            <button>Quote Tracking</button>
-            <button>Wishlist</button>
-          </div>
-          <div class="order-row"><span>VAQ-1024</span><strong>Luxury Gift Boxes</strong><em>Mockup approved</em></div>
-          <div class="order-row"><span>VAQ-1025</span><strong>Compostable Pouches</strong><em>In production</em></div>
-        </div>
-        <div class="cart-panel" id="cart">
-          <p class="eyebrow">Shopping Cart</p>
-          <h2>Order Summary</h2>
-          <div id="cartItems" class="cart-items"></div>
-          <label>Coupon Code<input id="coupon" placeholder="VERAQA10"></label>
-          <label>Shipping Estimate<select><option>Standard - 5 to 7 days</option><option>Priority - 2 to 4 days</option></select></label>
-          <div class="total-row"><span>Total</span><strong id="cartTotal">Rs 0</strong></div>
-          <a class="btn primary" href="#checkout">Proceed To Checkout</a>
-        </div>
-      </section>
-
-      <section class="checkout section" id="checkout">
-        <div class="section-heading">
-          <p class="eyebrow">Checkout</p>
-          <h2>Premium checkout experience.</h2>
-        </div>
-        <div class="checkout-grid">
-          <label>Address<textarea placeholder="Company address"></textarea></label>
-          <label>Shipping Method<select><option>Standard</option><option>Priority</option><option>Freight</option></select></label>
-          <label>Payment Method<select><option>Razorpay</option><option>UPI</option><option>Cards</option><option>Net Banking</option></select></label>
-          <button class="btn primary">Place Order</button>
-        </div>
-      </section>
     </main>
 
-    <footer class="site-footer">
-      <div>
-        <a class="brand footer-brand" href="#top">
-          <span class="brand-mark" aria-hidden="true"></span>
-          <span><strong>VERAQA</strong><small>Future-Ready Packaging Solutions.</small></span>
-        </a>
-        <p>Premium sustainable packaging for startups, SMEs, and enterprise brands.</p>
-      </div>
-      <div class="footer-links">
-        <a href="#shop">Categories</a>
-        <a href="#blog">Resources</a>
-        <a href="#quote">Request Quote</a>
-        <a href="#contact">Contact</a>
-        <a href="#top">Privacy Policy</a>
-        <a href="#top">Terms</a>
-      </div>
-      <form class="newsletter">
-        <label for="newsletterEmail">Newsletter</label>
-        <input id="newsletterEmail" type="email" placeholder="Email address">
-        <button class="btn secondary" type="submit">Sign Up</button>
-      </form>
-    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="script.js"></script>
-  </body>
+    <script>
+        // Data Structure
+        const products = [
+            { id: 1, title: 'Mailer Box', price: 12, moq: 100, icon: '📦', category: 'mailer' },
+            { id: 2, title: 'Rigid Box', price: 35, moq: 50, icon: '🎁', category: 'rigid' },
+            { id: 3, title: 'Paper Bag', price: 8, moq: 200, icon: '🛍️', category: 'bags' },
+            { id: 4, title: 'Custom Label', price: 2, moq: 500, icon: '🏷️', category: 'labels' },
+            { id: 5, title: 'Tape Roll', price: 5, moq: 300, icon: '🧻', category: 'labels' },
+            { id: 6, title: 'Bubble Wrap', price: 45, moq: 10, icon: '🫧', category: 'mailer' }
+        ];
+
+        const categories = [
+            { id: 'mailer', label: 'Mailer Boxes' },
+            { id: 'rigid', label: 'Rigid Boxes' },
+            { id: 'bags', label: 'Paper Bags' },
+            { id: 'labels', label: 'Labels & Tape' }
+        ];
+
+        // State
+        let cartItems = 0;
+
+        // DOM Elements
+        const productContainer = document.getElementById('product-container');
+        const filterContainer = document.getElementById('category-filters');
+        const cartCountBadge = document.getElementById('cart-count');
+
+        // Render Filters
+        function renderFilters() {
+            filterContainer.innerHTML = categories.map(cat => `
+                <label class="category-item d-flex align-items-start gap-2">
+                    <input type="checkbox" value="${cat.id}"> 
+                    <span>${cat.label}</span>
+                </label>
+            `).join('');
+        }
+
+        // Render Products with Bootstrap Grid Classes applied to the wrapper
+        function renderProducts(items) {
+            productContainer.innerHTML = items.map(product => `
+                <div class="col-6 col-md-4 col-xl-3">
+                    <div class="product-card glass h-100 d-flex flex-column">
+                        <div class="product-image d-flex justify-content-center align-items-center w-100">${product.icon}</div>
+                        <div class="product-info-padding d-flex flex-column flex-grow-1">
+                            <h4 class="product-title mb-2 text-truncate">${product.title}</h4>
+                            <div class="d-flex justify-content-between align-items-baseline mb-3">
+                                <span class="product-price fw-bold">₹${product.price}</span>
+                                <span class="product-moq text-end">MOQ ${product.moq}</span>
+                            </div>
+                            <button class="add-to-cart-btn w-100 rounded-2 fw-bold mt-auto py-2" onclick="addToCart()">Add To Cart</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Interactivity
+        function addToCart() {
+            cartItems++;
+            cartCountBadge.innerText = cartItems;
+            
+            cartCountBadge.style.transform = 'scale(1.3)';
+            setTimeout(() => { cartCountBadge.style.transform = 'scale(1)'; }, 200);
+        }
+
+        // Initialization
+        renderFilters();
+        renderProducts(products); // I added a couple extra placeholder products so you can test the grid wrapping!
+    </script>
+</body>
 </html>
