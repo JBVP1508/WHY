@@ -59,13 +59,11 @@ const products = seed.map((p, i) => ({
 }));
 
 const state = {
-  cart: JSON.parse(localStorage.getItem("veraqa-cart") || "[]"),
-  wishlist: JSON.parse(localStorage.getItem("veraqa-wish") || "[]"),
   filter: "all",
   search: "",
-  checkoutStep: 0,
   theme: localStorage.getItem("veraqa-theme") || "light",
 };
+
 
 document.body.classList.toggle("dark", state.theme === "dark");
 
@@ -73,11 +71,10 @@ const currentRoute = () => decodeURI(location.hash.slice(1) || "/");
 const currentPath = () => currentRoute().split("?")[0];
 const currentQuery = () => new URLSearchParams(currentRoute().split("?")[1] || "");
 const save = () => {
-  localStorage.setItem("veraqa-cart", JSON.stringify(state.cart));
-  localStorage.setItem("veraqa-wish", JSON.stringify(state.wishlist));
+  // cart/checkout removed
+  // wishlist removed
 };
-const totalQty = () => state.cart.reduce((n, item) => n + item.qty, 0);
-const subtotal = () => state.cart.reduce((n, item) => n + item.qty * products.find((p) => p.id === item.id).price, 0);
+
 
 const icon = (name) => {
   const d = {
@@ -134,7 +131,6 @@ function header() {
         <div class="nav-actions">
           <button class="icon-btn desktop-only" data-action="search" aria-label="Search">${icon("search")}</button>
           <button class="icon-btn desktop-only" data-action="theme" aria-label="Toggle theme">${icon(state.theme === "dark" ? "sun" : "moon")}</button>
-          <button class="icon-btn cart-button" data-action="cart" aria-label="Cart">${icon("bag")}<span>${totalQty()}</span></button>
           <a href="#/contact" data-route class="quote-btn">Get Quote</a>
           <button class="icon-btn mobile-only" data-action="menu" aria-label="Menu">${icon("menu")}</button>
         </div>
@@ -157,7 +153,7 @@ function footer() {
 }
 
 function productCard(p) {
-  return `<article class="product-card glass"><div class="product-img"><a data-route href="#/product/${p.slug}"><img src="${p.image}" alt="${p.name}"></a>${p.badge ? `<span class="product-badge">${p.badge}</span>` : ""}<button class="heart ${state.wishlist.includes(p.id) ? "liked" : ""}" data-wish="${p.id}" aria-label="Wishlist">${icon("heart")}</button></div><div class="product-body"><span class="product-cat">${p.category.replaceAll("-", " ")}</span><a data-route href="#/product/${p.slug}"><div class="product-name">${p.name}</div></a><span class="rating"><span class="stars">&#9733;</span> ${p.rating} (${p.reviews})</span><div class="product-meta"><span><span class="price">${money(p.price)}</span>${p.compare ? `<span class="compare">${money(p.compare)}</span>` : ""}<small class="muted"> / unit</small></span><button class="add-btn" data-add="${p.id}" aria-label="Add to cart">${icon("plus")}</button></div></div></article>`;
+  return `<article class="product-card glass"><div class="product-img"><a data-route href="#/product/${p.slug}"><img src="${p.image}" alt="${p.name}"></a>${p.badge ? `<span class="product-badge">${p.badge}</span>` : ""}</div><div class="product-body"><span class="product-cat">${p.category.replaceAll("-", " ")}</span><a data-route href="#/product/${p.slug}"><div class="product-name">${p.name}</div></a><span class="rating"><span class="stars">&#9733;</span> ${p.rating} (${p.reviews})</span><div class="product-meta"><span><span class="price">${money(p.price)}</span>${p.compare ? `<span class="compare">${money(p.compare)}</span>` : ""}<small class="muted"> / unit</small></span></div></div></article>`;
 }
 
 function home() {
@@ -204,7 +200,7 @@ function shop() {
 
 function productPage(slug) {
   const p = products.find((x) => x.slug === slug) || products[0];
-  return `<main class="section page-offset"><div class="wrap detail-grid"><div class="detail-image glass"><img src="${p.image}" alt="${p.name}"></div><div class="detail"><p class="eyebrow">${p.category.replaceAll("-", " ")}</p><h1>${p.name}</h1><div><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <span class="muted small">${p.rating} &middot; ${p.reviews} reviews</span></div><div class="detail-price">${money(p.price)} <small class="muted">per unit</small></div><p class="muted detail-copy">${p.description}</p><p class="label-title">SELECT SIZE</p><div class="variants"><button class="variant active">Small</button><button class="variant">Medium</button><button class="variant">Large</button></div><p class="label-title">QUANTITY</p><div class="qty"><button data-qty-change="-10">-</button><span id="detail-qty">100</span><button data-qty-change="10">+</button></div><div class="actions"><button class="btn btn-primary" data-add="${p.id}" data-product-add>Add to cart &middot; <span id="detail-total">${money(p.price * 100)}</span></button><button class="btn btn-ghost" data-wish="${p.id}">${icon("heart")}</button></div><div class="feature glass info-note"><strong>Responsibly made</strong><p>100% recyclable &middot; Free shipping over $250 &middot; Quality guaranteed</p></div></div></div></main>`;
+  return `<main class="section page-offset"><div class="wrap detail-grid"><div class="detail-image glass"><img src="${p.image}" alt="${p.name}"></div><div class="detail"><p class="eyebrow">${p.category.replaceAll("-", " ")}</p><h1>${p.name}</h1><div><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> <span class="muted small">${p.rating} &middot; ${p.reviews} reviews</span></div><div class="detail-price">${money(p.price)} <small class="muted">per unit</small></div><p class="muted detail-copy">${p.description}</p><div class="feature glass info-note"><strong>Responsibly made</strong><p>100% recyclable &middot; Free shipping over $250 &middot; Quality guaranteed</p></div></div></div></main>`;
 }
 
 function basicPage(type) {
@@ -237,32 +233,25 @@ function policyPage(key) {
 }
 
 function cartPage() {
-  if (!state.cart.length) return `<main class="section page-offset"><div class="wrap"><h1 class="display page-title">Your cart</h1><div class="empty glass"><p class="muted">Your cart is empty.</p><a data-route href="#/shop" class="btn btn-primary">Continue shopping</a></div></div></main>`;
-  return `<main class="section page-offset"><div class="wrap"><h1 class="display page-title">Your cart</h1><p class="muted">${totalQty()} units</p><div class="cart-grid"><div class="cart-list">${state.cart.map((item) => { const p = products.find((x) => x.id === item.id); return `<div class="cart-item glass"><img src="${p.image}" alt=""><div><strong>${p.name}</strong><p class="muted small">${p.category.replaceAll("-", " ")}</p><div class="qty"><button data-cart-qty="${p.id}" data-delta="-1">-</button><span>${item.qty}</span><button data-cart-qty="${p.id}" data-delta="1">+</button></div></div><div class="cart-price">${money(p.price * item.qty)}<button class="icon-btn" data-remove="${p.id}" aria-label="Remove">${icon("trash")}</button></div></div>`; }).join("")}</div>${summary()}</div></div></main>`;
+  return `<main class="section page-offset"><div class="wrap"><h1 class="display page-title">Cart</h1><div class="empty glass"><p class="muted">Cart and checkout are removed from this demo site.</p><a data-route href="#/shop" class="btn btn-primary">Back to products</a></div></div></main>`;
 }
 
 function summary() {
-  const sub = subtotal();
-  const ship = sub > 250 || sub === 0 ? 0 : 18;
-  const tax = sub * 0.05;
-  const total = sub + ship + tax;
-  return `<aside class="summary glass"><h3>Order summary</h3><div class="summary-row"><span class="muted">Subtotal</span><span>${money(sub)}</span></div><div class="summary-row"><span class="muted">Shipping</span><span>${ship ? "$18.00" : "Free"}</span></div><div class="summary-row"><span class="muted">Tax (5%)</span><span>${money(tax)}</span></div><div class="summary-row summary-total"><span>Total</span><span>${money(total)}</span></div><a data-route href="#/checkout" class="btn btn-primary checkout-link">Proceed to checkout</a></aside>`;
+  // Cart/checkout removed from this demo.
+  return ``;
 }
 
 function checkout() {
-  if (!state.cart.length) return cartPage();
-  const steps = ["Address", "Shipping", "Payment"];
-  return `<main class="section page-offset"><div class="wrap"><h1 class="display page-title">Checkout</h1><div class="steps">${steps.map((s, i) => `<div class="step ${i === state.checkoutStep ? "active" : i < state.checkoutStep ? "done" : ""}"><span class="step-num">${i < state.checkoutStep ? "OK" : i + 1}</span>${s}</div>`).join("")}</div><div class="checkout-grid"><div class="checkout-panel glass">${checkoutPanel()}<div class="checkout-actions"><button class="btn btn-ghost" data-step="back" ${state.checkoutStep === 0 ? "disabled" : ""}>Back</button><button class="btn btn-primary" data-step="next">${state.checkoutStep === 2 ? "Place order" : "Continue"} ${icon("arrow")}</button></div></div>${summary()}</div></div></main>`;
+  // Cart/checkout removed from this demo.
+  return cartPage();
 }
 
 function checkoutPanel() {
-  if (state.checkoutStep === 0) return `<h2 class="display panel-title">Shipping address</h2><div class="form-grid">${["First name", "Last name", "Email", "Phone", "Address line", "City", "State", "PIN code"].map((x, i) => `<div class="field ${i === 4 ? "full" : ""}"><label>${x}</label><input ${i < 5 ? "required" : ""}></div>`).join("")}</div>`;
-  if (state.checkoutStep === 1) return `<h2 class="display panel-title">Shipping method</h2>${[["Standard", "4-6 business days", "Free over $250"], ["Express", "1-2 business days", "$35"], ["Store pickup", "Ready in 2 hours", "Free"]].map((x, i) => `<label class="ship-option glass"><input type="radio" name="ship" ${i === 0 ? "checked" : ""}><span><strong>${x[0]}</strong><p>${x[1]}</p></span><strong>${x[2]}</strong></label>`).join("")}`;
-  return `<h2 class="display panel-title">Secure payment</h2><div class="pay-tabs">${["UPI", "Cards", "Net Banking", "Wallets"].map((x, i) => `<button class="pay-tab ${i === 0 ? "active" : ""}">${x}</button>`).join("")}</div><div class="form-grid"><div class="field full"><label>UPI ID or card number</label><input placeholder="yourname@bank"></div><div class="field"><label>Expiry</label><input placeholder="MM / YY"></div><div class="field"><label>CVV</label><input placeholder="***"></div></div>`;
+  return ``;
 }
 
 function sideCart() {
-  return `<div class="side-cart"><aside class="side-panel"><div class="side-head"><h2 class="display">Your cart</h2><button class="icon-btn" data-action="close-cart">${icon("close")}</button></div>${state.cart.length ? state.cart.map((i) => { const p = products.find((x) => x.id === i.id); return `<div class="cart-item mini"><img src="${p.image}" alt=""><div><strong>${p.name}</strong><p class="muted">${i.qty} x ${money(p.price)}</p></div></div>`; }).join("") + summary() : '<p class="muted">Your cart is empty.</p><a data-route href="#/shop" class="btn btn-primary checkout-link">Shop products</a>'}</aside></div>`;
+  return ``;
 }
 
 function render() {
@@ -274,8 +263,6 @@ function render() {
     : path === "/industries" ? basicPage("industries")
     : path === "/custom-packaging" ? basicPage("custom-packaging")
     : path === "/contact" ? contact()
-    : path === "/cart" ? cartPage()
-    : path === "/checkout" ? checkout()
     : policyData[path.slice(1)] ? policyPage(path.slice(1))
     : home();
   document.querySelector("#app").innerHTML = header() + body + footer();
@@ -284,13 +271,9 @@ function render() {
 }
 
 function add(id, qty = 1) {
-  const found = state.cart.find((i) => i.id === id);
-  if (found) found.qty += qty;
-  else state.cart.push({ id, qty });
-  save();
-  toast("Added to cart");
-  render();
+  // cart/checkout removed
 }
+
 
 function doSearch() {
   const input = document.querySelector("#global-search");
@@ -308,14 +291,8 @@ function bind() {
       route(target);
     };
   });
-  document.querySelectorAll("[data-add]").forEach((b) => (b.onclick = () => add(b.dataset.add, b.hasAttribute("data-product-add") ? Number(document.querySelector("#detail-qty").textContent) : 1)));
-  document.querySelectorAll("[data-wish]").forEach((b) => (b.onclick = () => {
-    const id = b.dataset.wish;
-    state.wishlist = state.wishlist.includes(id) ? state.wishlist.filter((x) => x !== id) : [...state.wishlist, id];
-    save();
-    toast(state.wishlist.includes(id) ? "Saved to wishlist" : "Removed from wishlist");
-    render();
-  }));
+
+
   document.querySelectorAll("[data-filter]").forEach((b) => (b.onclick = () => {
     state.filter = b.dataset.filter;
     route(state.filter === "all" ? "/shop" : `/shop?category=${state.filter}`);
@@ -323,24 +300,6 @@ function bind() {
   document.querySelectorAll(".variant").forEach((b) => (b.onclick = () => {
     document.querySelectorAll(".variant").forEach((x) => x.classList.remove("active"));
     b.classList.add("active");
-  }));
-  document.querySelectorAll("[data-qty-change]").forEach((b) => (b.onclick = () => {
-    const q = document.querySelector("#detail-qty");
-    q.textContent = Math.max(10, Number(q.textContent) + Number(b.dataset.qtyChange));
-    const p = products.find((x) => currentPath().endsWith(x.slug));
-    document.querySelector("#detail-total").textContent = money(p.price * Number(q.textContent));
-  }));
-  document.querySelectorAll("[data-cart-qty]").forEach((b) => (b.onclick = () => {
-    const i = state.cart.find((x) => x.id === b.dataset.cartQty);
-    i.qty += Number(b.dataset.delta);
-    if (i.qty <= 0) state.cart = state.cart.filter((x) => x.id !== i.id);
-    save();
-    render();
-  }));
-  document.querySelectorAll("[data-remove]").forEach((b) => (b.onclick = () => {
-    state.cart = state.cart.filter((x) => x.id !== b.dataset.remove);
-    save();
-    render();
   }));
   document.querySelector('[data-action="theme"]')?.addEventListener("click", () => {
     state.theme = state.theme === "dark" ? "light" : "dark";
@@ -361,11 +320,7 @@ function bind() {
     m.innerHTML = m.innerHTML ? "" : `<div class="mobile-menu glass">${[["/shop", "Products"], ["/custom-packaging", "Custom Packaging"], ["/industries", "Industries"], ["/about", "About Us"], ["/contact", "Contact"], ["/return-policy", "Returns"], ["/privacy-policy", "Privacy"]].map((n) => `<a data-route href="#${n[0]}">${n[1]}</a>`).join("")}</div>`;
     bind();
   });
-  document.querySelector('[data-action="cart"]')?.addEventListener("click", () => {
-    document.body.insertAdjacentHTML("beforeend", sideCart());
-    bind();
-  });
-  document.querySelector('[data-action="close-cart"]')?.addEventListener("click", () => document.querySelector(".side-cart")?.remove());
+
   document.querySelectorAll(".contact-form,.newsletter").forEach((f) => (f.onsubmit = (e) => {
     e.preventDefault();
     f.reset();
