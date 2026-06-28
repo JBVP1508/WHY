@@ -37,12 +37,16 @@ const palette = {
 
 const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 const money = (n) => "$" + Number(n).toFixed(2);
-const svgImage = (kind, title) => {
-  const [dark, light, label] = palette[kind] || palette.custom;
-  const safeTitle = title.replace(/&/g, "and");
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900"><defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="${light}"/><stop offset="1" stop-color="#ffffff"/></linearGradient></defs><rect width="900" height="900" fill="url(#g)"/><circle cx="710" cy="170" r="150" fill="${dark}" opacity=".11"/><circle cx="190" cy="760" r="180" fill="${dark}" opacity=".12"/><rect x="245" y="265" width="410" height="310" rx="34" fill="#fff" stroke="${dark}" stroke-width="18"/><path d="M245 335h410M330 265v310M570 265v310" stroke="${dark}" stroke-width="14" opacity=".35"/><path d="M320 650h260" stroke="${dark}" stroke-width="22" stroke-linecap="round"/><text x="450" y="715" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="${dark}">${label}</text><text x="450" y="770" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#355266">${safeTitle.slice(0, 28)}</text></svg>`;
-  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
-};
+// Product images: use PNG assets instead of runtime-generated SVGs
+const pngByIndex = [
+  "assets/1.png",
+  "assets/2.png",
+  "assets/3.png",
+  "assets/4.png",
+  "assets/5.png",
+  "assets/6.png",
+  "assets/7.png",
+];
 
 const products = seed.map((p, i) => ({
   id: `p-${i + 1}`,
@@ -53,7 +57,7 @@ const products = seed.map((p, i) => ({
   compare: p[3],
   rating: p[4],
   reviews: p[5],
-  image: svgImage(p[6], p[0]),
+  image: pngByIndex[i % pngByIndex.length],
   badge: p[7],
   description: p[8],
 }));
@@ -171,7 +175,7 @@ function home() {
 }
 
 function categoriesSection() {
-  return `<section class="section"><div class="wrap"><div class="heading-row"><div><p class="eyebrow">Collections</p><h2>Browse by category</h2></div><a data-route href="#/shop">View all -></a></div><div class="category-grid">${categories.map((c) => `<a data-route href="#/shop?category=${c[0]}" class="category"><img src="${svgImage(c[2], c[1])}" alt="${c[1]}"><div class="category-info"><strong>${c[1]}</strong><small>${c[3]} products</small></div></a>`).join("")}</div></div></section>`;
+  return `<section class="section"><div class="wrap"><div class="heading-row"><div><p class="eyebrow">Collections</p><h2>Browse by category</h2></div><a data-route href="#/shop">View all -></a></div><div class="category-grid">${categories.map((c, i) => `<a data-route href="#/shop?category=${c[0]}" class="category"><img src="${pngByIndex[i % pngByIndex.length]}" alt="${c[1]}"><div class="category-info"><strong>${c[1]}</strong><small>${c[3]} products</small></div></a>`).join("")}</div></div></section>`;
 }
 
 function productsSection() {
